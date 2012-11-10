@@ -19,7 +19,7 @@ namespace GOL.Interfaces
         /// <summary>
         /// Saves a game world
         /// </summary>
-        void SaveGameWorld(string description, GameWorld gameWorld);
+        void SaveGameWorld(GameWorld gameWorld);
 
         /// <summary>
         /// Loads a game world

@@ -15,27 +15,17 @@ namespace GOL.Models
         /// </summary>
         public GameWorld()
         {
-            this.liveNodes = new List<Node>();
+            this.LiveNodes = new List<Node>();
         }
 
         /// <summary>
-        /// Gets or sets the game world iteration
+        /// Gets or sets the description
         /// </summary>
-        public long iteration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the game world width
-        /// </summary>
-        public int Width { get; set; }
-
-        /// <summary>
-        /// Gets or sets the game world height
-        /// </summary>
-        public int Height { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the list of live nodes in the game world
         /// </summary>
-        public List<Node> liveNodes { get; set; }
+        public List<Node> LiveNodes { get; set; }
     }
 }

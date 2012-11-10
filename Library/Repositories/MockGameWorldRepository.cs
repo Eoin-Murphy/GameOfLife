@@ -13,27 +13,46 @@ namespace GOL.Repositories
     /// </summary>
     public class MockGameWorldRepository : IGameRepository
     {
-        private Dictionary<string, GameWorld> savedWorlds;
+        private List<GameWorld> savedWorlds;
 
         public MockGameWorldRepository()
         {
-            savedWorlds = new Dictionary<string, GameWorld>();
+            savedWorlds = new List<GameWorld>();
 
-            GameWorld mockWorld = new GameWorld();
-            Node n1 = new Node() { X = 2, Y = 1 };
-            Node n2 = new Node() { X = 2, Y = 2 };
-            Node n3 = new Node() { X = 2, Y = 3 };
+            GameWorld Block = new GameWorld();
+            Block.LiveNodes.Add(new Node() { X = 1, Y = 1 });
+            Block.LiveNodes.Add(new Node() { X = 1, Y = 2 });
+            Block.LiveNodes.Add(new Node() { X = 2, Y = 1 });
+            Block.LiveNodes.Add(new Node() { X = 2, Y = 2 });
+            Block.Description = "Block";
+            savedWorlds.Add(Block);
 
-            mockWorld.liveNodes.Add(n1);
-            mockWorld.liveNodes.Add(n2);
-            mockWorld.liveNodes.Add(n3);
+            GameWorld Boat = new GameWorld();
+            Boat.LiveNodes.Add(new Node() { X = 1, Y = 1 });
+            Boat.LiveNodes.Add(new Node() { X = 2, Y = 1 });
+            Boat.LiveNodes.Add(new Node() { X = 1, Y = 2 });
+            Boat.LiveNodes.Add(new Node() { X = 3, Y = 2 });
+            Boat.LiveNodes.Add(new Node() { X = 2, Y = 3 });
+            Boat.Description = "Boat";
+            savedWorlds.Add(Boat);
 
-            mockWorld.Height = 3;
-            mockWorld.Width = 3;
+            GameWorld Blinker = new GameWorld();
+            Blinker.LiveNodes.Add(new Node() { X = 2, Y = 1 });
+            Blinker.LiveNodes.Add(new Node() { X = 2, Y = 2 });
+            Blinker.LiveNodes.Add(new Node() { X = 2, Y = 3 });          
+            Blinker.Description = "Blinker";
+            savedWorlds.Add(Blinker);
 
-            mockWorld.iteration = 0;
 
-            savedWorlds.Add("Blinker", mockWorld);
+            GameWorld Toad = new GameWorld();
+            Toad.LiveNodes.Add(new Node() { X = 2, Y = 1 });
+            Toad.LiveNodes.Add(new Node() { X = 3, Y = 1 });
+            Toad.LiveNodes.Add(new Node() { X = 4, Y = 1 });
+            Toad.LiveNodes.Add(new Node() { X = 1, Y = 2 });
+            Toad.LiveNodes.Add(new Node() { X = 2, Y = 2 });
+            Toad.LiveNodes.Add(new Node() { X = 3, Y = 2 });
+            Toad.Description = "Toad";
+            savedWorlds.Add(Toad);
         }
 
         /// <summary>
@@ -42,24 +61,18 @@ namespace GOL.Repositories
         /// <returns></returns>
         public List<string> LoadGameWorldDescriptions()
         {
-            return savedWorlds.Keys.ToList();
+            return savedWorlds.Select(gw => gw.Description).ToList();
         }
 
         /// <summary>
         /// Saves the provided game world
         /// </summary>
-        public void SaveGameWorld(string description, GameWorld gameWorld)
+        public void SaveGameWorld(GameWorld gameWorld)
         {
-            if (savedWorlds.ContainsKey(description))
-            {
-                // Update the existing world
-                savedWorlds[description] = gameWorld;
-            }
-            else
-            {
-                // Add a new world
-                savedWorlds.Add(description, gameWorld);
-            }
+            this.DeleteGameWorld(gameWorld.Description);
+
+            // Add a new world
+            savedWorlds.Add(gameWorld);            
         }
 
         /// <summary>
@@ -67,7 +80,7 @@ namespace GOL.Repositories
         /// </summary>
         public GameWorld LoadGameWorld(string description)
         {
-            return savedWorlds[description];
+            return savedWorlds.Where(gw => gw.Description.Equals(description, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
         }
 
         /// <summary>
@@ -75,7 +88,7 @@ namespace GOL.Repositories
         /// </summary>
         public void DeleteGameWorld(string description)
         {
-            savedWorlds.Remove(description);
+            savedWorlds.RemoveAll(gw => gw.Description.Equals(description, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

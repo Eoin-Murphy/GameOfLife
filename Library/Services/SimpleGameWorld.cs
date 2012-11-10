@@ -38,7 +38,7 @@ namespace GOL.Services
         /// </summary>
         public void SaveGameWorld()
         {
-            this.gameRepository.SaveGameWorld(this.description, this.gameWorld);
+            this.gameRepository.SaveGameWorld(this.gameWorld);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace GOL.Services
         public void UpdateGameWorld()
         {
             // TODO : make thread safe
-            if (this.gameWorld.liveNodes.Any())
+            if (this.gameWorld.LiveNodes.Any())
             {
                 /*
                  * Nodes added to this list are carried forward to the next iteration.
@@ -66,16 +66,16 @@ namespace GOL.Services
                  * Loop through, check each live node for the rules.
                  * Take note of the dead nodes adjacent
                  */
-                foreach (Node node in this.gameWorld.liveNodes)
+                foreach (Node node in this.gameWorld.LiveNodes)
                 {
                     allAdjNodes = this.GetAdjacentNodes(node);
                     liveAdjNodes = new List<Node>();                    
 
                     // Get the live nodes which are adjacent to the current node
-                    liveAdjNodes = this.gameWorld.liveNodes.Intersect(allAdjNodes).ToList();
+                    liveAdjNodes = this.gameWorld.LiveNodes.Intersect(allAdjNodes).ToList();
 
                     // Get the dead nodes which are adjacent to the current node
-                    deadAdjNodes.AddRange(allAdjNodes.Except(this.gameWorld.liveNodes).ToList());
+                    deadAdjNodes.AddRange(allAdjNodes.Except(this.gameWorld.LiveNodes).ToList());
 
                     /*
                      * Applying rules 1, 2, & 3
@@ -111,7 +111,8 @@ namespace GOL.Services
                     deadAdjNodes.RemoveAll(n => n.Equals(deadNode));
                 }
 
-                this.gameWorld.liveNodes = nextGameState;
+                // Update the game world state
+                this.gameWorld.LiveNodes = nextGameState;
             }
         }
 
@@ -120,7 +121,7 @@ namespace GOL.Services
         /// </summary>
         public List<Node> GetGameWorldState()
         {
-            return this.gameWorld.liveNodes;
+            return this.gameWorld.LiveNodes;
         }
 
         /// <summary>
@@ -140,11 +141,7 @@ namespace GOL.Services
             adjNodes.Add(new Node() { X = node.X + 1, Y = node.Y - 1 });    // +1, -1
             adjNodes.Add(new Node() { X = node.X + 1, Y = node.Y });        // +1, 0
             adjNodes.Add(new Node() { X = node.X + 1, Y = node.Y + 1 });    // +1, +1
-
-            // Assumption: can't have negative X & Y values
-            adjNodes.RemoveAll(n => n.X < 1 || n.X > gameWorld.Width ||
-                                    n.Y < 1 || n.Y > gameWorld.Height);
-
+            
             return adjNodes;
         }
     }
