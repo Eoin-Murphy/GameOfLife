@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8B53BE4A-6C60-4CE3-85D1-C43D5FE21150}</ProjectGuid>
+    <ProjectGuid>{EEE84951-0459-45E0-89C7-83E5BB8E9363}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GOL.Models</RootNamespace>
-    <AssemblyName>GOL.Models</AssemblyName>
+    <RootNamespace>GOL.Repositories</RootNamespace>
+    <AssemblyName>GOL.Repositories</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,9 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Node.cs" />
-    <Compile Include="GameWorld.cs" />
+    <Compile Include="MockGameWorldRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\GOL.Interfaces.csproj">
+      <Project>{D5BF6448-53BB-4C2F-A7E6-B50C65067F71}</Project>
+      <Name>GOL.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\GOL.Models.csproj">
+      <Project>{8B53BE4A-6C60-4CE3-85D1-C43D5FE21150}</Project>
+      <Name>GOL.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

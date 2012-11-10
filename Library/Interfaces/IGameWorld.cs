@@ -12,18 +12,23 @@ namespace GOL.Interfaces
     public interface IGameWorld
     {
         /// <summary>
-        /// Initialize the game world
+        /// Loads the specified game world
         /// </summary>
-        void InitializeGameWorld();
+        void LoadGameWorld(string description);
+
+        /// <summary>
+        /// Save the current game world
+        /// </summary>
+        void SaveGameWorld();
 
         /// <summary>
         /// Executes the next world iteration
         /// </summary>
-        void ExecuteGameWorldIteration();
+        void UpdateGameWorld();
 
         /// <summary>
         /// Gets the current game world state
         /// </summary>
-        List<LiveNode> GetGameWorldState();
+        List<Node> GetGameWorldState();
     }
 }

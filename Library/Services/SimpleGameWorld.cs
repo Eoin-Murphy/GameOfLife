@@ -12,59 +12,140 @@ namespace GOL.Services
     /// </summary>
     public class SimpleGameWorld : IGameWorld
     {
-        private GameWorld simpleGameWorld;
+        private IGameRepository gameRepository;
+        private string description;
+        private GameWorld gameWorld;
 
         /// <summary>
         /// Initializes a instance of the SimpleGameWorld class
         /// </summary>
-        public SimpleGameWorld()
+        public SimpleGameWorld(IGameRepository gameRepo)
         {
-            this.simpleGameWorld = new GameWorld();
+            this.gameRepository = gameRepo;
+        }
+        
+        /// <summary>
+        /// Loads the specified game world
+        /// </summary>
+        public void LoadGameWorld(string description)
+        {
+            this.gameWorld = this.gameRepository.LoadGameWorld(description);
+            this.description = description;
         }
 
         /// <summary>
-        /// Initializes a simple game world
+        /// Save the current game world
         /// </summary>
-        public void InitializeGameWorld()
+        public void SaveGameWorld()
         {
-            LiveNode n1 = new LiveNode() { X = 1, Y = 1 };
-            LiveNode n2 = new LiveNode() { X = 1, Y = 2 };
-            LiveNode n3 = new LiveNode() { X = 2, Y = 2 };
-            LiveNode n4 = new LiveNode() { X = 2, Y = 1 };
-
-            this.simpleGameWorld.liveNodes.Add(n1);
-            this.simpleGameWorld.liveNodes.Add(n2);
-            this.simpleGameWorld.liveNodes.Add(n3);
-            this.simpleGameWorld.liveNodes.Add(n4);
-
-            this.simpleGameWorld.Height = 10;
-            this.simpleGameWorld.Width = 10;
+            this.gameRepository.SaveGameWorld(this.description, this.gameWorld);
         }
 
         /// <summary>
         /// Executes an iteration of the simple game world
         /// </summary>
-        public void ExecuteGameWorldIteration()
+        public void UpdateGameWorld()
         {
             // TODO : make thread safe
-            if (this.simpleGameWorld.liveNodes.Any())
+            if (this.gameWorld.liveNodes.Any())
             {
-                List<LiveNode> nextState = new List<LiveNode>();
-                foreach (LiveNode node in this.simpleGameWorld.liveNodes)
+                /*
+                 * Nodes added to this list are carried forward to the next iteration.
+                 * If they are not added, then they are dead.
+                 */
+                List<Node> nextGameState = new List<Node>();
+
+                // These are the dead nodes adjacent to live nodes in the current iteration
+                List<Node> deadAdjNodes = new List<Node>();
+
+                // Loop variables
+                List<Node> allAdjNodes;
+                List<Node> liveAdjNodes;                
+                
+                /*
+                 * Loop through, check each live node for the rules.
+                 * Take note of the dead nodes adjacent
+                 */
+                foreach (Node node in this.gameWorld.liveNodes)
                 {
-                    // Implement world rules
+                    allAdjNodes = this.GetAdjacentNodes(node);
+                    liveAdjNodes = new List<Node>();                    
+
+                    // Get the live nodes which are adjacent to the current node
+                    liveAdjNodes = this.gameWorld.liveNodes.Intersect(allAdjNodes).ToList();
+
+                    // Get the dead nodes which are adjacent to the current node
+                    deadAdjNodes.AddRange(allAdjNodes.Except(this.gameWorld.liveNodes).ToList());
+
+                    /*
+                     * Applying rules 1, 2, & 3
+                     * 1. Any live cell with fewer than two live neighbours dies, as if by loneliness.
+                     * 2. Any live cell with more than three live neighbours dies, as if by overcrowding.
+                     * 3. Any live cell with two or three live neighbours lives, unchanged, to the next generation. 
+                     */
+                    if (liveAdjNodes.Count() == 2 || liveAdjNodes.Count() == 3)
+                    {
+                        nextGameState.Add(node);
+                    }                    
                 }
 
-                this.simpleGameWorld.liveNodes = nextState;
+               /*
+                * Applying rule 4
+                * 4. Any dead cell with exactly three live neighbours comes to life.
+                * 
+                * Using a while loop as iterators don't like it when you delete items out during a loop.
+                */
+                while (deadAdjNodes.Any())
+                {
+                    Node deadNode = deadAdjNodes.First();
+
+                    int count = deadAdjNodes.Where(daj => daj.Equals(deadNode)).Count();
+
+                    // If it appears three times then it was added by three live nodes
+                    if (count == 3)
+                    {
+                        nextGameState.Add(deadNode);
+                    }
+
+                    // Remove each node as we progress through the list. No need to check them twice.
+                    deadAdjNodes.RemoveAll(n => n.Equals(deadNode));
+                }
+
+                this.gameWorld.liveNodes = nextGameState;
             }
         }
 
         /// <summary>
         /// Gets the current state of the simple game world
         /// </summary>
-        public List<LiveNode> GetGameWorldState()
+        public List<Node> GetGameWorldState()
         {
-            return this.simpleGameWorld.liveNodes;
+            return this.gameWorld.liveNodes;
+        }
+
+        /// <summary>
+        /// Gets a list of the nodes adjacent to the specified node
+        /// </summary>
+        private List<Node> GetAdjacentNodes(Node node)
+        {
+            List<Node> adjNodes = new List<Node>();
+
+            adjNodes.Add(new Node(){ X = node.X -1, Y = node.Y -1});        // -1, -1
+            adjNodes.Add(new Node(){ X = node.X -1, Y = node.Y});           // -1, 0
+            adjNodes.Add(new Node() { X = node.X - 1, Y = node.Y + 1 });    // -1, +1 
+            
+            adjNodes.Add(new Node(){ X = node.X, Y = node.Y -1});           // 0, -1
+            adjNodes.Add(new Node() { X = node.X, Y = node.Y +1});          // 0, +1
+
+            adjNodes.Add(new Node() { X = node.X + 1, Y = node.Y - 1 });    // +1, -1
+            adjNodes.Add(new Node() { X = node.X + 1, Y = node.Y });        // +1, 0
+            adjNodes.Add(new Node() { X = node.X + 1, Y = node.Y + 1 });    // +1, +1
+
+            // Assumption: can't have negative X & Y values
+            adjNodes.RemoveAll(n => n.X < 1 || n.X > gameWorld.Width ||
+                                    n.Y < 1 || n.Y > gameWorld.Height);
+
+            return adjNodes;
         }
     }
 }

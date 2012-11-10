@@ -9,7 +9,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOL.Interfaces", "..\Librar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOL.Services", "..\Library\Services\GOL.Services.csproj", "{2CACAC66-287C-4041-A10B-838AFC69A7DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOL.Repositories", "..\Library\Repositories\GOL.Repositories.csproj", "{EEE84951-0459-45E0-89C7-83E5BB8E9363}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3BFC0AC1-509C-4C83-AC98-E90ED52F908B}"
+	ProjectSection(SolutionItems) = preProject
+		GameOfLife.vsmdi = GameOfLife.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOL.Services.Test", "..\Library\Services.Test\GOL.Services.Test.csproj", "{F9F1CE41-8055-4396-BDA1-5E446ABDB265}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = GameOfLife.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -59,6 +73,26 @@ Global
 		{2CACAC66-287C-4041-A10B-838AFC69A7DF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2CACAC66-287C-4041-A10B-838AFC69A7DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2CACAC66-287C-4041-A10B-838AFC69A7DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EEE84951-0459-45E0-89C7-83E5BB8E9363}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9F1CE41-8055-4396-BDA1-5E446ABDB265}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

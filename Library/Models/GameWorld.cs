@@ -15,7 +15,7 @@ namespace GOL.Models
         /// </summary>
         public GameWorld()
         {
-            this.liveNodes = new List<LiveNode>();
+            this.liveNodes = new List<Node>();
         }
 
         /// <summary>
@@ -36,6 +36,6 @@ namespace GOL.Models
         /// <summary>
         /// Gets or sets the list of live nodes in the game world
         /// </summary>
-        public List<LiveNode> liveNodes { get; set; }
+        public List<Node> liveNodes { get; set; }
     }
 }

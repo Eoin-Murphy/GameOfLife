@@ -17,18 +17,18 @@ namespace GOL.Interfaces
         List<string> LoadGameWorldDescriptions();
 
         /// <summary>
-        /// Saves a game world description
+        /// Saves a game world
         /// </summary>
-        void SaveGameWorldDescription();
+        void SaveGameWorld(string description, GameWorld gameWorld);
 
         /// <summary>
         /// Loads a game world
         /// </summary>
-        GameWorld LoadGameWorld(string worldDescriptor);
-
+        GameWorld LoadGameWorld(string description);
+        
         /// <summary>
-        /// Saves a game world
+        /// Deletes the specified game world
         /// </summary>
-        void SaveGameWorld(string worldDescriptor, GameWorld gameWorld);
+        void DeleteGameWorld(string description);
     }
 }
