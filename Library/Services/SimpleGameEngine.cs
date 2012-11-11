@@ -10,7 +10,7 @@ namespace GOL.Services
     /// <summary>
     /// This class represents a very simple game world
     /// </summary>
-    public class SimpleGameWorld : IGameWorld
+    public class SimpleGameEngine : IGameEngine
     {
         private IGameRepository gameRepository;
         private string description;
@@ -18,9 +18,9 @@ namespace GOL.Services
         private Object thisLock;
 
         /// <summary>
-        /// Initializes a instance of the SimpleGameWorld class
+        /// Initializes a instance of the SimpleGameEngine class
         /// </summary>
-        public SimpleGameWorld(IGameRepository gameRepo)
+        public SimpleGameEngine(IGameRepository gameRepo)
         {
             this.thisLock = new Object();
             this.gameRepository = gameRepo;
@@ -44,7 +44,7 @@ namespace GOL.Services
         }
 
         /// <summary>
-        /// Executes an iteration of the simple game world
+        /// Executes an iteration of the simple game engine
         /// </summary>
         public void UpdateGameWorld()
         {

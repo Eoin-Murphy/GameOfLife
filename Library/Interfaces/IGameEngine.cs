@@ -9,7 +9,7 @@ namespace GOL.Interfaces
     /// <summary>
     /// Interface specifying the methods for interacting with the game world
     /// </summary>
-    public interface IGameWorld
+    public interface IGameEngine
     {
         /// <summary>
         /// Loads the specified game world

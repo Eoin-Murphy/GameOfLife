@@ -16,9 +16,9 @@ namespace ServicesTest
     ///to contain all SimpleGameWorldTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class SimpleGameWorldTest
+    public class SimpleGameEngineTest
     {
-        private IGameWorld gameWorld;        
+        private IGameEngine gameWorld;        
 
         /// <summary>
         /// Sets up the test fixture
@@ -26,8 +26,8 @@ namespace ServicesTest
         [TestInitialize]
         public void SetupSimpleWorldTest()
         {
-            IGameRepository mockGameRepository = new MockGameWorldRepository();
-            gameWorld = new SimpleGameWorld(mockGameRepository);
+            IGameRepository mockGameRepository = new SimpleGameRepository();
+            gameWorld = new SimpleGameEngine(mockGameRepository);
         }
 
         [TestMethod]

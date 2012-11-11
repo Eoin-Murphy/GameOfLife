@@ -24,7 +24,7 @@ namespace GameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IGameWorld gameWorld;
+        private IGameEngine gameWorld;
         private List<Node> nodes;
         private BackgroundWorker backgroundWorker;        
 
@@ -35,8 +35,8 @@ namespace GameOfLife
         {
             // Load up all of our models
             IoCAssembler iocAssembler = new IoCAssembler();
-            gameWorld = iocAssembler.Create<IGameWorld>();
-            gameWorld.LoadGameWorld("Block");
+            gameWorld = iocAssembler.Create<IGameEngine>();
+            gameWorld.LoadGameWorld("Toad");
 
             // Initalize the GUI
             InitializeComponent();

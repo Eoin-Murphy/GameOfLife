@@ -33,14 +33,14 @@ namespace GameOfLife
             // Adding repo
             this.AddComponent<IGameRepository>(() =>
             {
-                IGameRepository gameRepository = new MockGameWorldRepository();
+                IGameRepository gameRepository = new SimpleGameRepository();
                 return gameRepository;
             });
 
             // Adding services
-            this.AddComponent<IGameWorld>(() =>
+            this.AddComponent<IGameEngine>(() =>
                 {
-                    IGameWorld gameWorld = new SimpleGameWorld(this.Create<IGameRepository>());
+                    IGameEngine gameWorld = new SimpleGameEngine(this.Create<IGameRepository>());
                     return gameWorld;
                 });
         }

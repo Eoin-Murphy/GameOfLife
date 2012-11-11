@@ -8,14 +8,16 @@ using GOL.Models;
 namespace GOL.Repositories
 {
     /// <summary>
-    /// This is a mock game world repository. Just returns dummy data
-    /// Useful for testing and getting started.
+    /// This is a very simple game world repository.
     /// </summary>
-    public class MockGameWorldRepository : IGameRepository
+    public class SimpleGameRepository : IGameRepository
     {
         private List<GameWorld> savedWorlds;
 
-        public MockGameWorldRepository()
+        /// <summary>
+        /// Initializes an instance of the simpleGameRepository class with some dummy data
+        /// </summary>
+        public SimpleGameRepository()
         {
             savedWorlds = new List<GameWorld>();
 
@@ -58,7 +60,6 @@ namespace GOL.Repositories
         /// <summary>
         /// Returns the saved descriptions
         /// </summary>
-        /// <returns></returns>
         public List<string> LoadGameWorldDescriptions()
         {
             return savedWorlds.Select(gw => gw.Description).ToList();
