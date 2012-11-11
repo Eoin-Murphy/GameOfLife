@@ -15,12 +15,14 @@ namespace GOL.Services
         private IGameRepository gameRepository;
         private string description;
         private GameWorld gameWorld;
+        private Object thisLock;
 
         /// <summary>
         /// Initializes a instance of the SimpleGameWorld class
         /// </summary>
         public SimpleGameWorld(IGameRepository gameRepo)
         {
+            this.thisLock = new Object();
             this.gameRepository = gameRepo;
         }
         
@@ -46,73 +48,75 @@ namespace GOL.Services
         /// </summary>
         public void UpdateGameWorld()
         {
-            // TODO : make thread safe
-            if (this.gameWorld.LiveNodes.Any())
+            lock (thisLock)
             {
-                /*
-                 * Nodes added to this list are carried forward to the next iteration.
-                 * If they are not added, then they are dead.
-                 */
-                List<Node> nextGameState = new List<Node>();
-
-                // These are the dead nodes adjacent to live nodes in the current iteration
-                List<Node> deadAdjNodes = new List<Node>();
-
-                // Loop variables
-                List<Node> allAdjNodes;
-                List<Node> liveAdjNodes;                
-                
-                /*
-                 * Loop through, check each live node for the rules.
-                 * Take note of the dead nodes adjacent
-                 */
-                foreach (Node node in this.gameWorld.LiveNodes)
+                if (this.gameWorld.LiveNodes.Any())
                 {
-                    allAdjNodes = this.GetAdjacentNodes(node);
-                    liveAdjNodes = new List<Node>();                    
+                    /*
+                     * Nodes added to this list are carried forward to the next iteration.
+                     * If they are not added, then they are dead.
+                     */
+                    List<Node> nextGameState = new List<Node>();
 
-                    // Get the live nodes which are adjacent to the current node
-                    liveAdjNodes = this.gameWorld.LiveNodes.Intersect(allAdjNodes).ToList();
+                    // These are the dead nodes adjacent to live nodes in the current iteration
+                    List<Node> deadAdjNodes = new List<Node>();
 
-                    // Get the dead nodes which are adjacent to the current node
-                    deadAdjNodes.AddRange(allAdjNodes.Except(this.gameWorld.LiveNodes).ToList());
+                    // Loop variables
+                    List<Node> allAdjNodes;
+                    List<Node> liveAdjNodes;
 
                     /*
-                     * Applying rules 1, 2, & 3
-                     * 1. Any live cell with fewer than two live neighbours dies, as if by loneliness.
-                     * 2. Any live cell with more than three live neighbours dies, as if by overcrowding.
-                     * 3. Any live cell with two or three live neighbours lives, unchanged, to the next generation. 
+                     * Loop through, check each live node for the rules.
+                     * Take note of the dead nodes adjacent
                      */
-                    if (liveAdjNodes.Count() == 2 || liveAdjNodes.Count() == 3)
+                    foreach (Node node in this.gameWorld.LiveNodes)
                     {
-                        nextGameState.Add(node);
-                    }                    
-                }
+                        allAdjNodes = this.GetAdjacentNodes(node);
+                        liveAdjNodes = new List<Node>();
 
-               /*
-                * Applying rule 4
-                * 4. Any dead cell with exactly three live neighbours comes to life.
-                * 
-                * Using a while loop as iterators don't like it when you delete items out during a loop.
-                */
-                while (deadAdjNodes.Any())
-                {
-                    Node deadNode = deadAdjNodes.First();
+                        // Get the live nodes which are adjacent to the current node
+                        liveAdjNodes = this.gameWorld.LiveNodes.Intersect(allAdjNodes).ToList();
 
-                    int count = deadAdjNodes.Where(daj => daj.Equals(deadNode)).Count();
+                        // Get the dead nodes which are adjacent to the current node
+                        deadAdjNodes.AddRange(allAdjNodes.Except(this.gameWorld.LiveNodes).ToList());
 
-                    // If it appears three times then it was added by three live nodes
-                    if (count == 3)
-                    {
-                        nextGameState.Add(deadNode);
+                        /*
+                         * Applying rules 1, 2, & 3
+                         * 1. Any live cell with fewer than two live neighbours dies, as if by loneliness.
+                         * 2. Any live cell with more than three live neighbours dies, as if by overcrowding.
+                         * 3. Any live cell with two or three live neighbours lives, unchanged, to the next generation. 
+                         */
+                        if (liveAdjNodes.Count() == 2 || liveAdjNodes.Count() == 3)
+                        {
+                            nextGameState.Add(node);
+                        }
                     }
 
-                    // Remove each node as we progress through the list. No need to check them twice.
-                    deadAdjNodes.RemoveAll(n => n.Equals(deadNode));
-                }
+                    /*
+                     * Applying rule 4
+                     * 4. Any dead cell with exactly three live neighbours comes to life.
+                     * 
+                     * Using a while loop as iterators don't like it when you delete items out during a loop.
+                     */
+                    while (deadAdjNodes.Any())
+                    {
+                        Node deadNode = deadAdjNodes.First();
 
-                // Update the game world state
-                this.gameWorld.LiveNodes = nextGameState;
+                        int count = deadAdjNodes.Where(daj => daj.Equals(deadNode)).Count();
+
+                        // If it appears three times then it was added by three live nodes
+                        if (count == 3)
+                        {
+                            nextGameState.Add(deadNode);
+                        }
+
+                        // Remove each node as we progress through the list. No need to check them twice.
+                        deadAdjNodes.RemoveAll(n => n.Equals(deadNode));
+                    }
+
+                    // Update the game world state
+                    this.gameWorld.LiveNodes = nextGameState;
+                }
             }
         }
 

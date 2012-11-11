@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IoCAssembler.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -91,6 +92,24 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Interfaces\GOL.Interfaces.csproj">
+      <Project>{D5BF6448-53BB-4C2F-A7E6-B50C65067F71}</Project>
+      <Name>GOL.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Models\GOL.Models.csproj">
+      <Project>{8B53BE4A-6C60-4CE3-85D1-C43D5FE21150}</Project>
+      <Name>GOL.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Repositories\GOL.Repositories.csproj">
+      <Project>{EEE84951-0459-45E0-89C7-83E5BB8E9363}</Project>
+      <Name>GOL.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Services\GOL.Services.csproj">
+      <Project>{2CACAC66-287C-4041-A10B-838AFC69A7DF}</Project>
+      <Name>GOL.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
