@@ -25,7 +25,17 @@ namespace GOL.Services
             this.thisLock = new Object();
             this.gameRepository = gameRepo;
         }
-        
+
+
+        /// <summary>
+        /// Gets a list of world descriptions
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetWorldDescriptions()
+        {
+            return this.gameRepository.GetGameWorldDescriptions();
+        }
+
         /// <summary>
         /// Loads the specified game world
         /// </summary>
@@ -126,6 +136,15 @@ namespace GOL.Services
         public List<Node> GetGameWorldState()
         {
             return this.gameWorld.LiveNodes;
+        }
+
+        /// <summary>
+        /// Gets the current game world name
+        /// </summary>
+        /// <returns></returns>
+        public string GetCurrentWorldDescription()
+        {
+            return this.gameWorld.Description;
         }
 
         /// <summary>

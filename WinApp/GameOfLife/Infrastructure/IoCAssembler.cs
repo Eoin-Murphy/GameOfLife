@@ -6,7 +6,7 @@ using GOL.Interfaces;
 using GOL.Services;
 using GOL.Repositories;
 
-namespace GameOfLife
+namespace GameOfLife.Infrastructure
 {
     /// <summary>
     /// This is a simple Inversion of Control Assembler
@@ -40,8 +40,8 @@ namespace GameOfLife
             // Adding services
             this.AddComponent<IGameEngine>(() =>
                 {
-                    IGameEngine gameWorld = new SimpleGameEngine(this.Create<IGameRepository>());
-                    return gameWorld;
+                    IGameEngine gameEngine = new SimpleGameEngine(this.Create<IGameRepository>());
+                    return gameEngine;
                 });
         }
 

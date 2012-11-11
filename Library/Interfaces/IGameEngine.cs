@@ -12,6 +12,12 @@ namespace GOL.Interfaces
     public interface IGameEngine
     {
         /// <summary>
+        /// Gets a list of world descriptions
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetWorldDescriptions();
+
+        /// <summary>
         /// Loads the specified game world
         /// </summary>
         void LoadGameWorld(string description);
@@ -30,5 +36,11 @@ namespace GOL.Interfaces
         /// Gets the current game world state
         /// </summary>
         List<Node> GetGameWorldState();
+
+        /// <summary>
+        /// Gets the current game world name
+        /// </summary>
+        /// <returns></returns>
+        string GetCurrentWorldDescription();
     }
 }

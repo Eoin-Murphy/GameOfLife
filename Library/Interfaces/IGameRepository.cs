@@ -14,7 +14,7 @@ namespace GOL.Interfaces
         /// <summary>
         /// Loads a list of saved game world descriptions
         /// </summary>
-        List<string> LoadGameWorldDescriptions();
+        List<string> GetGameWorldDescriptions();
 
         /// <summary>
         /// Saves a game world

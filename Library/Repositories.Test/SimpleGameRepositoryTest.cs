@@ -57,7 +57,7 @@ namespace GOL.Repositories.Test
         [TestMethod]
         public void LoadGameWorldDescriptionsTest()
         {
-            List<string> descriptions = this.gameRepository.LoadGameWorldDescriptions();
+            List<string> descriptions = this.gameRepository.GetGameWorldDescriptions();
             Assert.IsTrue(descriptions.Any());
             Assert.IsTrue(descriptions.Contains("Boat"));
         }

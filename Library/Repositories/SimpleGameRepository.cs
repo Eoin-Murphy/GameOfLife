@@ -45,7 +45,6 @@ namespace GOL.Repositories
             Blinker.Description = "Blinker";
             savedWorlds.Add(Blinker);
 
-
             GameWorld Toad = new GameWorld();
             Toad.LiveNodes.Add(new Node() { X = 2, Y = 1 });
             Toad.LiveNodes.Add(new Node() { X = 3, Y = 1 });
@@ -55,12 +54,23 @@ namespace GOL.Repositories
             Toad.LiveNodes.Add(new Node() { X = 3, Y = 2 });
             Toad.Description = "Toad";
             savedWorlds.Add(Toad);
+
+            GameWorld Beacon = new GameWorld();
+            Beacon.LiveNodes.Add(new Node() { X = 1, Y = 1 });
+            Beacon.LiveNodes.Add(new Node() { X = 2, Y = 1 });
+            Beacon.LiveNodes.Add(new Node() { X = 1, Y = 2 });
+            Beacon.LiveNodes.Add(new Node() { X = 3, Y = 4 });
+            Beacon.LiveNodes.Add(new Node() { X = 4, Y = 3 });
+            Beacon.LiveNodes.Add(new Node() { X = 4, Y = 4 });
+            Beacon.Description = "Beacon";
+            savedWorlds.Add(Beacon);
+
         }
 
         /// <summary>
         /// Returns the saved descriptions
         /// </summary>
-        public List<string> LoadGameWorldDescriptions()
+        public List<string> GetGameWorldDescriptions()
         {
             return savedWorlds.Select(gw => gw.Description).ToList();
         }

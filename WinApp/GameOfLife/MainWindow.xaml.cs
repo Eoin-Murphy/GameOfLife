@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GOL.Interfaces;
+using GameOfLife.Infrastructure;
 using GOL.Models;
 using System.ComponentModel;
 using System.Timers;
@@ -24,7 +25,7 @@ namespace GameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IGameEngine gameWorld;
+        private IGameEngine gameEngine;
         private List<Node> nodes;
         private BackgroundWorker backgroundWorker;        
 
@@ -35,8 +36,8 @@ namespace GameOfLife
         {
             // Load up all of our models
             IoCAssembler iocAssembler = new IoCAssembler();
-            gameWorld = iocAssembler.Create<IGameEngine>();
-            gameWorld.LoadGameWorld("Toad");
+            gameEngine = iocAssembler.Create<IGameEngine>();
+            gameEngine.LoadGameWorld("Toad");
 
             // Initalize the GUI
             InitializeComponent();
@@ -64,7 +65,7 @@ namespace GameOfLife
         /// </summary>
         public void backgroundWorker_DoWork(Object sender, DoWorkEventArgs args)
         {            
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
         }
         
         /// <summary>
@@ -72,39 +73,84 @@ namespace GameOfLife
         /// </summary>
         public void backgroundWorker_RunWorkerCompleted(Object sender, RunWorkerCompletedEventArgs args)
         {
+            StackPanel stackPanel = new StackPanel();
+            this.Content = stackPanel;
+            stackPanel.Margin = new Thickness(0, 0, 0, 0);
+            stackPanel.Background = new SolidColorBrush(Colors.White);
+            stackPanel.Orientation = Orientation.Vertical;
+
+            // Animated canvas
             Canvas canvasPanel = new Canvas();
-            canvasPanel.Height = 480;
-            canvasPanel.Width = 780;
-            
-            canvasPanel.Background = new SolidColorBrush(Colors.LightCyan);
-            
-            this.nodes = this.gameWorld.GetGameWorldState();
-            
-            // Gets our XY coords for scaling
-            int maxX = nodes.Select(n => n.X).Max();
-            int maxY = nodes.Select(n => n.Y).Max();
+            canvasPanel.Margin = new Thickness(0, 0, 0, 0);
+            canvasPanel.Height = 200;
+                        
+            this.nodes = this.gameEngine.GetGameWorldState();                      
 
-            int minX = nodes.Select(n => n.X).Min();
-            int minY = nodes.Select(n => n.X).Min();
-
+            // Default node with
             int nodeWidth = 20;
+
+            // Two hacky variables because we're not doing auto scaling
+            int prettifyX = 160;
+            int prettifyY = 40;
+            
+            SolidColorBrush blackBrush = new SolidColorBrush(Colors.Black);
+            SolidColorBrush whiteBrush = new SolidColorBrush(Colors.White);
+            
             foreach (Node node in this.nodes)
             {
+                // Create the node obect
                 Rectangle nodeRectangle = new Rectangle();
                 nodeRectangle.Width = nodeWidth;
                 nodeRectangle.Height = nodeWidth;
-                nodeRectangle.Fill = new SolidColorBrush(Colors.Black);
+                nodeRectangle.Fill = blackBrush;
+                nodeRectangle.Margin = new Thickness(1, 1, 1, 1);
+                nodeRectangle.Stroke = whiteBrush;
 
                 // Set Canvas position
-                Canvas.SetLeft(nodeRectangle, (node.X * nodeWidth) + nodeWidth);
-                Canvas.SetTop(nodeRectangle, (node.Y * nodeWidth) + nodeWidth);
+                Canvas.SetLeft(nodeRectangle, (node.X * nodeWidth) + prettifyX);
+                Canvas.SetTop(nodeRectangle, (node.Y * nodeWidth) + prettifyY);
 
                 // Add Rectangle to Canvas
                 canvasPanel.Children.Add(nodeRectangle);
             }
 
-            // Set Canvas as content of the Window            
-            this.Content = canvasPanel;
+            stackPanel.Children.Add(canvasPanel);
+
+            //add the buttons for the different forms.
+            StackPanel buttonPanel = new StackPanel();
+            buttonPanel.Margin = new Thickness(0, 0, 0, 0);
+            buttonPanel.Background = new SolidColorBrush(Colors.White);
+            buttonPanel.Orientation = Orientation.Vertical;
+
+            // Leaving per loop load as we could dynamically alter the list
+            foreach (string savedModel in this.gameEngine.GetWorldDescriptions())
+            {
+                Button button = new Button();
+                button.Content = "Load " + savedModel;
+                button.Margin = new Thickness(0, 0, 0, 0);
+                button.Click += button_click;
+                if (savedModel.Equals(this.gameEngine.GetCurrentWorldDescription()))
+                {
+                    button.IsEnabled = false;
+                }
+
+                buttonPanel.Children.Add(button);
+            }
+
+            stackPanel.Children.Add(buttonPanel);
+        }
+
+        /// <summary>
+        /// Change the gameworld to the supplied button
+        /// </summary>
+        private void button_click(Object sender, EventArgs args)
+        {
+            Button clickedButton = (Button)sender;
+            string loadStr = "Load ";
+            string content = clickedButton.Content.ToString();            
+            string nextPattern = content.Substring(loadStr.Length, content.Length - loadStr.Length);
+                
+            this.gameEngine.LoadGameWorld(nextPattern);
         }
     }
 }

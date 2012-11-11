@@ -9,166 +9,190 @@ using GOL.Repositories;
 
 namespace ServicesTest
 {
-    
-    
     /// <summary>
-    ///This is a test class for SimpleGameWorldTest and is intended
-    ///to contain all SimpleGameWorldTest Unit Tests
+    ///This is a test class for SimpleGameEngine and is intended
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class SimpleGameEngineTest
     {
-        private IGameEngine gameWorld;        
+        private IGameEngine gameEngine;        
 
         /// <summary>
         /// Sets up the test fixture
+        /// Lots of happy trail testing, none failing.
         /// </summary>
         [TestInitialize]
-        public void SetupSimpleWorldTest()
+        public void SetupSimpleEngineTest()
         {
-            IGameRepository mockGameRepository = new SimpleGameRepository();
-            gameWorld = new SimpleGameEngine(mockGameRepository);
+            IGameRepository simpleGameRepository = new SimpleGameRepository();
+            gameEngine = new SimpleGameEngine(simpleGameRepository);
         }
 
         [TestMethod]
         public void LoadGameWorldTest()
         {
-            this.gameWorld.LoadGameWorld("Blinker");
+            this.gameEngine.LoadGameWorld("Blinker");
 
-            Assert.AreEqual(3, this.gameWorld.GetGameWorldState().Count());
+            Assert.AreEqual(3, this.gameEngine.GetGameWorldState().Count());
         }
 
         [TestMethod]
         public void SaveGameWorld()
         {
-            this.gameWorld.LoadGameWorld("Blinker");
+            this.gameEngine.LoadGameWorld("Blinker");
 
-            this.gameWorld.SaveGameWorld();
+            this.gameEngine.SaveGameWorld();
         }
 
         [TestMethod]
         public void GetGameWorldState()
         {
-            this.gameWorld.LoadGameWorld("Blinker");
+            this.gameEngine.LoadGameWorld("Blinker");
 
-            Assert.AreEqual(3, this.gameWorld.GetGameWorldState().Count());
+            Assert.AreEqual(3, this.gameEngine.GetGameWorldState().Count());
 
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
         }
 
         [TestMethod]
         public void TestBlockUpdate()
         {
-            this.gameWorld.LoadGameWorld("Block");
+            this.gameEngine.LoadGameWorld("Block");
 
             // initial block
-            Assert.AreEqual(4, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.AreEqual(4, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
 
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
 
             // updated block
-            Assert.AreEqual(4, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.AreEqual(4, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
         }
 
         [TestMethod]
         public void TestBoatUpdate()
         {
-            this.gameWorld.LoadGameWorld("Boat");
+            this.gameEngine.LoadGameWorld("Boat");
 
             // initial boat
-            Assert.AreEqual(5, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
+            Assert.AreEqual(5, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
 
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
 
             // updated boat
-            Assert.AreEqual(5, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
+            Assert.AreEqual(5, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
         }
 
         [TestMethod]
         public void TestBlinkerUpdate()
         {
-            this.gameWorld.LoadGameWorld("Blinker");
+            this.gameEngine.LoadGameWorld("Blinker");
 
             // vertical state
-            Assert.AreEqual(3, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
+            Assert.AreEqual(3, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
 
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
 
             // horizontal state
-            Assert.AreEqual(3, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
+            Assert.AreEqual(3, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
 
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
 
             // vertical state
-            Assert.AreEqual(3, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
+            Assert.AreEqual(3, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
 
         }
 
         [TestMethod]
         public void TestToadUpdate()
         {
-            this.gameWorld.LoadGameWorld("Toad");
+            this.gameEngine.LoadGameWorld("Toad");
 
             // initial state
-            Assert.AreEqual(6, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 4, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
+            Assert.AreEqual(6, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 4, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
 
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
 
             // updated state
-            Assert.AreEqual(6, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 0 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 4, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 4, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
+            Assert.AreEqual(6, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 0 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 4, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 4, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 3 }));
 
-            this.gameWorld.UpdateGameWorld();
+            this.gameEngine.UpdateGameWorld();
 
             // initial state
-            Assert.AreEqual(6, this.gameWorld.GetGameWorldState().Count());
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 4, Y = 1 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
-            Assert.IsTrue(this.gameWorld.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
+            Assert.AreEqual(6, this.gameEngine.GetGameWorldState().Count());
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 4, Y = 1 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 1, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 2, Y = 2 }));
+            Assert.IsTrue(this.gameEngine.GetGameWorldState().Contains(new Node() { X = 3, Y = 2 }));
 
         }
-    }
+
+        /// <summary>
+        ///A test for GetCurrentWorldDescription
+        ///</summary>
+        [TestMethod]
+        public void GetCurrentWorldDescriptionTest()
+        {
+            this.gameEngine.LoadGameWorld("Toad");
+
+            Assert.IsTrue(this.gameEngine.GetCurrentWorldDescription().Equals("Toad", StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
+        ///A test for GetWorldDescriptions
+        ///</summary>
+        [TestMethod]
+        public void GetWorldDescriptionsTest()
+        {
+            List<string> descriptions = this.gameEngine.GetWorldDescriptions();
+
+            Assert.IsTrue(descriptions.Contains("Block"));
+            Assert.IsTrue(descriptions.Contains("Boat"));
+            Assert.IsTrue(descriptions.Contains("Blinker"));
+            Assert.IsTrue(descriptions.Contains("Toad"));
+            Assert.IsTrue(descriptions.Contains("Beacon"));
+        }
+    }   
 }
