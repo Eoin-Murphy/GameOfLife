@@ -5,6 +5,7 @@ using System.Text;
 using GOL.Interfaces;
 using GOL.Services;
 using GOL.Repositories;
+using GOL.Updater.Imperative;
 
 namespace GameOfLife.Infrastructure
 {
@@ -30,6 +31,13 @@ namespace GameOfLife.Infrastructure
         {
             bindings = new Dictionary<Type, CreateCode>();
 
+            // Adding updater
+            this.AddComponent<IGameUpdater>(() =>
+            {
+                IGameUpdater gameUpdater = new SimpleUpdater();
+                return gameUpdater;
+            });
+
             // Adding repo
             this.AddComponent<IGameRepository>(() =>
             {
@@ -40,7 +48,9 @@ namespace GameOfLife.Infrastructure
             // Adding services
             this.AddComponent<IGameEngine>(() =>
                 {
-                    IGameEngine gameEngine = new SimpleGameEngine(this.Create<IGameRepository>());
+                    IGameEngine gameEngine = new SimpleGameEngine(
+                                                            this.Create<IGameRepository>(),
+                                                            this.Create<IGameUpdater>());
                     return gameEngine;
                 });
         }

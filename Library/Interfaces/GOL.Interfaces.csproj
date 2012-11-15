@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IGameEngine.cs" />
     <Compile Include="IGameRepository.cs" />
+    <Compile Include="IGameUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

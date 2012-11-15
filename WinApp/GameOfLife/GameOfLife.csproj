@@ -110,6 +110,10 @@
       <Project>{2CACAC66-287C-4041-A10B-838AFC69A7DF}</Project>
       <Name>GOL.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Library\Updater.Imperative\GOL.Updater.Imperative.csproj">
+      <Project>{4DC53F4A-4642-4055-B998-AF8C5C499594}</Project>
+      <Name>GOL.Updater.Imperative</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

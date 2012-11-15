@@ -6,6 +6,7 @@ using GOL.Interfaces;
 using GOL.Models;
 using System.Collections.Generic;
 using GOL.Repositories;
+using GOL.Updater.Imperative;
 
 namespace ServicesTest
 {
@@ -24,8 +25,9 @@ namespace ServicesTest
         [TestInitialize]
         public void SetupSimpleEngineTest()
         {
+            IGameUpdater simpleGameUpdater = new SimpleUpdater();
             IGameRepository simpleGameRepository = new SimpleGameRepository();
-            gameEngine = new SimpleGameEngine(simpleGameRepository);
+            gameEngine = new SimpleGameEngine(simpleGameRepository, simpleGameUpdater);
         }
 
         [TestMethod]
